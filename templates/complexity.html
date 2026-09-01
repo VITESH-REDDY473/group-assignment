@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complexity Analysis & Classification - B.Tech CS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="nav-brand">
+            🧠 Intelligent Optimization System <span class="badge-tag">B.Tech</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/knapsack">Knapsack</a></li>
+            <li><a href="/job-sequencing">Job Sequencing</a></li>
+            <li><a href="/tsp">TSP</a></li>
+            <li><a href="/complexity" class="active">Complexity</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <header class="page-header">
+            <span class="badge badge-theory">Module 4: Theoretical Evaluation</span>
+            <h1 class="page-title" style="margin-top: 0.5rem;">Algorithm Complexity & Theoretical Classification</h1>
+            <p class="page-subtitle">Formal asymptotic bounds, P vs NP theory, reduction taxonomy, and real-time execution benchmarks.</p>
+        </header>
+
+        <!-- Section 1: Real-Time Measured Runtime Benchmarking -->
+        <section class="section-panel">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">1. Real-Time Measured Execution Benchmarks</h2>
+                <span class="badge badge-optimal">time.perf_counter()</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1rem;">
+                The values below reflect actual runtime measurements recorded by the Python backend across module executions within your session.
+            </p>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">0/1 Knapsack (DP)</div>
+                    <div class="metric-value accent" id="bench-knapsack-time" style="font-size: 1.15rem;">-</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Job Sequencing (Greedy)</div>
+                    <div class="metric-value success" id="bench-job-time" style="font-size: 1.15rem;">-</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">TSP (Backtracking + Pruning)</div>
+                    <div class="metric-value warning" id="bench-tsp-time" style="font-size: 1.15rem;">-</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Complexity Comparison Matrix -->
+        <section class="section-panel">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">2. Asymptotic Complexity Comparison Matrix</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Problem</th>
+                            <th>Paradigm</th>
+                            <th>Time Complexity</th>
+                            <th>Space Complexity</th>
+                            <th>Optimization Variant</th>
+                            <th>Decision Variant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0/1 Knapsack</strong></td>
+                            <td>Payload Cargo Optimization</td>
+                            <td>Dynamic Programming</td>
+                            <td><code>O(n × W)</code></td>
+                            <td><code>O(n × W)</code></td>
+                            <td><span class="badge badge-pruned">NP-Hard</span></td>
+                            <td><span class="badge badge-pruned">NP-Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Job Sequencing</strong></td>
+                            <td>Delivery Slot Allocation</td>
+                            <td>Greedy Algorithm</td>
+                            <td><code>O(n log n + nD)</code></td>
+                            <td><code>O(D)</code></td>
+                            <td><span class="badge badge-optimal">P</span></td>
+                            <td><span class="badge badge-optimal">P</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Travelling Salesperson (TSP)</strong></td>
+                            <td>Depot Route Optimization</td>
+                            <td>Backtracking + Pruning</td>
+                            <td><code>O((n-1)!)</code></td>
+                            <td><code>O(n)</code></td>
+                            <td><span class="badge badge-pruned">NP-Hard</span></td>
+                            <td><span class="badge badge-pruned">NP-Complete</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 3: Comprehensive Algorithmic Comparison (Pros, Cons, Scalability) -->
+        <section class="section-panel">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">3. Algorithmic Trade-offs, Scalability & Optimality</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Optimality Guarantee</th>
+                            <th>Advantages</th>
+                            <th>Limitations</th>
+                            <th>Scalability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0/1 Knapsack (DP)</strong></td>
+                            <td>Always finds exact optimal profit.</td>
+                            <td>Avoids recomputing overlapping subproblems by caching in 2D table.</td>
+                            <td>Pseudo-polynomial: memory & runtime scale with numeric capacity $W$.</td>
+                            <td>Excellent for reasonable integer capacities; inefficient if $W$ is exponential.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Job Sequencing (Greedy)</strong></td>
+                            <td>Guaranteed optimal for single-processor unit-duration jobs.</td>
+                            <td>Extremely fast, low memory overhead, straightforward implementation.</td>
+                            <td>Greedy choice fails if jobs have arbitrary durations or precedence constraints.</td>
+                            <td>Highly scalable; can process tens of thousands of jobs in milliseconds.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TSP (Backtracking + Pruning)</strong></td>
+                            <td>Guaranteed absolute minimum cost tour.</td>
+                            <td>Prunes massive sub-trees early whenever partial cost $\ge best\_cost$.</td>
+                            <td>Factorial worst-case growth: exponential barrier remains for large $n$.</td>
+                            <td>Effective for $n \le 15$; requires heuristics/meta-heuristics (e.g. Genetic, Ant Colony) for large $n$.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: B.Tech Theoretical Classifications (P, NP, NP-Hard, NP-Complete) -->
+        <section class="section-panel">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">4. Theoretical Complexity Classes Explained</h2>
+            </div>
+
+            <!-- Class P -->
+            <div class="theory-card p-card">
+                <h3 style="color: #166534; font-size: 1.15rem; margin-bottom: 0.35rem;">
+                    Class P (Polynomial Time Solvable)
+                </h3>
+                <p style="font-size: 0.93rem; color: #334155; margin-bottom: 0.5rem;">
+                    <strong>Definition:</strong> The set of all decision problems that can be solved by a <em>Deterministic Turing Machine</em> in polynomial time $O(n^k)$, where $k$ is a constant.
+                </p>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">
+                    <strong>Example in System:</strong> <em>Job Sequencing with Deadlines</em> is solvable in $O(n \log n + nD)$, which is polynomial with respect to input parameters, placing it squarely in Class P.
+                </p>
+            </div>
+
+            <!-- Class NP -->
+            <div class="theory-card np-card">
+                <h3 style="color: #1e40af; font-size: 1.15rem; margin-bottom: 0.35rem;">
+                    Class NP (Nondeterministic Polynomial Time Verifiable)
+                </h3>
+                <p style="font-size: 0.93rem; color: #334155; margin-bottom: 0.5rem;">
+                    <strong>Definition:</strong> The set of all decision problems for which a candidate certificate/solution can be <em>verified</em> by a Deterministic Turing Machine in polynomial time.
+                </p>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">
+                    <strong>Key Insight:</strong> Verifying a given answer is much easier than discovering the optimal answer from scratch.
+                </p>
+            </div>
+
+            <!-- NP-Hard -->
+            <div class="theory-card nphard-card">
+                <h3 style="color: #92400e; font-size: 1.15rem; margin-bottom: 0.35rem;">
+                    NP-Hard (At Least as Hard as Any NP Problem)
+                </h3>
+                <p style="font-size: 0.93rem; color: #334155; margin-bottom: 0.5rem;">
+                    <strong>Definition:</strong> A problem $H$ is NP-Hard if every problem $L \in \text{NP}$ can be polynomial-time many-one reduced to $H$ ($L \le_P H$). NP-Hard problems do <em>not</em> need to be decision problems or belong to NP.
+                </p>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">
+                    <strong>Example in System:</strong> TSP Optimization ("Find the absolute shortest tour") and 0/1 Knapsack Optimization ("Find subset with maximum profit") are NP-Hard.
+                </p>
+            </div>
+
+            <!-- NP-Complete -->
+            <div class="theory-card npcomplete-card">
+                <h3 style="color: #991b1b; font-size: 1.15rem; margin-bottom: 0.35rem;">
+                    NP-Complete (The Hardest Problems in NP)
+                </h3>
+                <p style="font-size: 0.93rem; color: #334155; margin-bottom: 0.5rem;">
+                    <strong>Definition:</strong> A decision problem $C$ is NP-Complete if:
+                    <ol style="margin-left: 1.5rem; margin-top: 0.25rem;">
+                        <li>$C \in \text{NP}$ (verifiable in polynomial time), AND</li>
+                        <li>$C \text{ is NP-Hard}$ (every problem in NP reduces to $C$ in polynomial time).</li>
+                    </ol>
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 5: Optimization vs Decision Distinction -->
+        <section class="section-panel">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">5. Optimization vs. Decision Problem Distinction</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1.25rem;">
+                    <h3 style="color: var(--primary-color); font-size: 1.1rem; margin-bottom: 0.5rem;">TSP Case Study</h3>
+                    <p style="font-size: 0.9rem; color: #334155; margin-bottom: 0.5rem;">
+                        <strong>Optimization Problem:</strong> <em>"Find the tour that achieves the minimum possible total travel distance."</em><br>
+                        &rarr; Output is a route & numeric cost. Classified as <strong>NP-Hard</strong>.
+                    </p>
+                    <p style="font-size: 0.9rem; color: #334155;">
+                        <strong>Decision Problem:</strong> <em>"Given distance matrix and budget $K$, does there exist a tour with total distance $\le K$?"</em><br>
+                        &rarr; Output is YES/NO. Verifiable in $O(n)$ time. Classified as <strong>NP-Complete</strong>.
+                    </p>
+                </div>
+
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1.25rem;">
+                    <h3 style="color: var(--primary-color); font-size: 1.1rem; margin-bottom: 0.5rem;">0/1 Knapsack Case Study</h3>
+                    <p style="font-size: 0.9rem; color: #334155; margin-bottom: 0.5rem;">
+                        <strong>Pseudo-Polynomial Time:</strong> Although the DP algorithm has runtime $O(nW)$, $W$ represents the numeric capacity, whose binary encoding size is $k = \log_2 W$.
+                    </p>
+                    <p style="font-size: 0.9rem; color: #334155;">
+                        Since $W = 2^k$, runtime is actually exponential in the input bit-length ($O(n \cdot 2^k)$). Thus, 0/1 Knapsack is pseudo-polynomial, weakly NP-Complete (decision), and NP-Hard (optimization).
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>Intelligent Combinatorial Optimization and Decision System</strong> &bull; B.Tech Computer Science Project</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

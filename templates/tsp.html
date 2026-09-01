@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travelling Salesperson Problem - Backtracking with Pruning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="nav-brand">
+            🧠 Intelligent Optimization System <span class="badge-tag">B.Tech</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/knapsack">Knapsack</a></li>
+            <li><a href="/job-sequencing">Job Sequencing</a></li>
+            <li><a href="/tsp" class="active">TSP</a></li>
+            <li><a href="/complexity">Complexity</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <header class="page-header">
+            <span class="badge badge-backtrack">Module 3: Backtracking & Pruning</span>
+            <h1 class="page-title" style="margin-top: 0.5rem;">Travelling Salesperson Problem (TSP)</h1>
+            <p class="page-subtitle">Find the minimum-cost closed tour visiting every delivery destination exactly once with branch-and-bound pruning.</p>
+        </header>
+
+        <!-- Alert Box -->
+        <div id="tsp-alert" class="alert alert-danger" style="display: none;"></div>
+
+        <!-- Complexity Warning Box -->
+        <div class="alert alert-warning">
+            <strong>Computational Bound Notice:</strong> TSP Backtracking explores up to $(n-1)!$ Hamiltonian permutations. The search space grows factorially ($O((n-1)!)$). Interactive demonstrations are bounded to $\le 10$ destinations to prevent client-server timeouts while illustrating branch pruning efficiency.
+        </div>
+
+        <!-- Input Configuration Panel -->
+        <section class="section-panel">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">Destination & Distance Matrix Setup</h2>
+                <a href="/" class="btn btn-secondary btn-sm">&larr; Back to Dashboard</a>
+            </div>
+
+            <div style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="tsp-count" class="form-label">Number of Destinations (n):</label>
+                    <select id="tsp-count" class="form-control" style="width: 140px;">
+                        <option value="3">3 (A, B, C)</option>
+                        <option value="4" selected>4 (A, B, C, D)</option>
+                        <option value="5">5 (A, B, C, D, E)</option>
+                        <option value="6">6 Destinations</option>
+                        <option value="7">7 Destinations</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-secondary" id="btn-generate-matrix">Generate Matrix Grid</button>
+            </div>
+
+            <!-- Dynamic Distance Matrix Container -->
+            <label class="form-label">Distance / Travel Cost Matrix ($C_{ij} \ge 0$ with $C_{ii} = 0$):</label>
+            <div class="table-responsive" id="tsp-matrix-container">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Action Button Group -->
+            <div class="button-group">
+                <button type="button" class="btn btn-primary" id="btn-solve-tsp">Solve TSP (Backtracking + Pruning)</button>
+                <button type="button" class="btn btn-secondary" id="btn-clear-tsp">Reset Defaults</button>
+            </div>
+        </section>
+
+        <!-- Results Section (Dynamic) -->
+        <section class="section-panel results-container" id="tsp-results">
+            <div class="section-panel-header">
+                <h2 class="section-panel-title">TSP Optimal Route & Search Metrics</h2>
+                <span class="badge badge-backtrack">Branch & Bound Pruning</span>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Minimum Tour Cost</div>
+                    <div class="metric-value success" id="res-tsp-cost">0 units</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Total Possible Routes $(n-1)!$</div>
+                    <div class="metric-value" id="res-tsp-possible">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Routes Explored</div>
+                    <div class="metric-value" id="res-tsp-explored">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Branches Pruned ($Cost \ge Best$)</div>
+                    <div class="metric-value warning" id="res-tsp-pruned">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Execution Time</div>
+                    <div class="metric-value accent" id="res-tsp-time">0.000000 s</div>
+                </div>
+            </div>
+
+            <!-- Optimal Route Display Box -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 2rem;">
+                <div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 700; color: #166534; margin-bottom: 0.25rem;">
+                    Absolute Optimal Closed Tour:
+                </div>
+                <div style="font-size: 1.4rem; font-weight: 800; color: #15803d; letter-spacing: 0.05em;" id="res-tsp-route">
+                    -
+                </div>
+            </div>
+
+            <!-- Route Exploration Trace Table -->
+            <div style="margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h3 style="font-size: 1.15rem; color: #1e293b;">Search Tree Exploration & Pruning Trace</h3>
+                    <span style="font-size: 0.82rem; color: var(--text-muted);">Real-time Backtracking Logs</span>
+                </div>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                    Notice how branches with partial route cost exceeding current <code>best_cost</code> are terminated early without examining their child sub-trees.
+                </p>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%;">Tour / Sub-Branch Traversal</th>
+                                <th style="width: 20%;">Path Cost</th>
+                                <th style="width: 30%;">Exploration Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tsp-log-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>Intelligent Combinatorial Optimization and Decision System</strong> &bull; B.Tech Computer Science Project</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

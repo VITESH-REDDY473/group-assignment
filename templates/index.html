@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Combinatorial Optimization and Decision System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Glassmorphic Navbar -->
+    <nav class="navbar">
+        <a href="/" class="nav-brand">
+            <div class="brand-icon">⚡</div>
+            <span>Intelligent Optimization</span>
+            <span class="badge-tag">B.Tech CS</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/" class="active">Dashboard</a></li>
+            <li><a href="/knapsack">0/1 Knapsack</a></li>
+            <li><a href="/job-sequencing">Job Sequencing</a></li>
+            <li><a href="/tsp">TSP Solver</a></li>
+            <li><a href="/complexity">Complexity</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero-section">
+            <div class="hero-pill">
+                <span>✦</span> Algorithmic Decision Support System
+            </div>
+            <h1 class="hero-title">Intelligent Combinatorial Optimization</h1>
+            <p class="hero-subtitle">
+                An interactive suite implementing Dynamic Programming, Greedy Strategy, and Backtracking with Branch-and-Bound Pruning for real-world logistics optimization.
+            </p>
+        </header>
+
+        <!-- 4 Premium Cards Grid -->
+        <div class="dashboard-grid">
+            <!-- Card 1: 0/1 Knapsack -->
+            <div class="card card-dp">
+                <div>
+                    <div class="card-icon-wrap icon-dp">📦</div>
+                    <div class="card-technique">Dynamic Programming</div>
+                    <h3 class="card-title">0/1 Knapsack Problem</h3>
+                    <p class="card-body">
+                        Maximizes cargo payload value within vehicle weight capacity using bottom-up 2D memoization and item backtracking.
+                    </p>
+                </div>
+                <a href="/knapsack" class="btn btn-primary" id="btn-nav-knapsack">
+                    <span>Launch Module</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Card 2: Job Sequencing -->
+            <div class="card card-greedy">
+                <div>
+                    <div class="card-icon-wrap icon-greedy">⏱️</div>
+                    <div class="card-technique">Greedy Strategy</div>
+                    <h3 class="card-title">Job Sequencing with Deadlines</h3>
+                    <p class="card-body">
+                        Sequences time-critical delivery jobs into discrete processor slots to maximize profit before expiration deadlines.
+                    </p>
+                </div>
+                <a href="/job-sequencing" class="btn btn-primary" id="btn-nav-job" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);">
+                    <span>Launch Module</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Card 3: TSP Backtracking -->
+            <div class="card card-tsp">
+                <div>
+                    <div class="card-icon-wrap icon-tsp">🗺️</div>
+                    <div class="card-technique">Backtracking & Pruning</div>
+                    <h3 class="card-title">Travelling Salesperson</h3>
+                    <p class="card-body">
+                        Discovers the global minimum cost Hamiltonian cycle across multi-depot routes with branch-and-bound bound pruning.
+                    </p>
+                </div>
+                <a href="/tsp" class="btn btn-primary" id="btn-nav-tsp" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);">
+                    <span>Launch Module</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Card 4: Complexity Analysis -->
+            <div class="card card-theory">
+                <div>
+                    <div class="card-icon-wrap icon-theory">🧠</div>
+                    <div class="card-technique">Complexity Theory</div>
+                    <h3 class="card-title">Complexity Analysis</h3>
+                    <p class="card-body">
+                        Comprehensive B.Tech evaluation of P, NP, NP-Hard, and NP-Complete complexity classes with live execution benchmarking.
+                    </p>
+                </div>
+                <a href="/complexity" class="btn btn-primary" id="btn-nav-complexity" style="background: linear-gradient(135deg, #a855f7, #7e22ce); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);">
+                    <span>Launch Module</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>Intelligent Combinatorial Optimization and Decision System</strong> &bull; B.Tech Computer Science Capstone Project</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
